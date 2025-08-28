@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="P360" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  
+  <!-- Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+  
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-192x192.png" />
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="P360 Health & Wellness Platform - AI-powered health recommendations, content generation, and code assistance" />
+  <meta name="keywords" content="health, wellness, AI, ChatGPT, recommendations, content generation, code assistance" />
+  <meta name="author" content="P360 Team" />
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="P360 Health & Wellness Platform" />
+  <meta property="og:description" content="AI-powered health and wellness platform with ChatGPT integration" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://p360.health" />
+  <meta property="og:image" content="/og-image.png" />
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="P360 Health & Wellness Platform" />
+  <meta name="twitter:description" content="AI-powered health and wellness platform with ChatGPT integration" />
+  <meta name="twitter:image" content="/og-image.png" />
+  
+  <title>P360 - Health & Wellness Platform</title>
+  
+  <style>
+    /* Loading screen styles */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.3s ease;
+    }
+    
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .loading-text {
+      color: white;
+      margin-top: 20px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="text-center">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Loading P360...</div>
+    </div>
+  </div>
+  
+  <div id="app"></div>
+  
+  <!-- Service Worker Registration -->
+  <script>
+    // Register service worker for PWA functionality
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('SW registered: ', registration);
+          })
+          .catch((registrationError) => {
+            console.log('SW registration failed: ', registrationError);
+          });
+      });
+    }
+    
+    // Hide loading screen when app is ready
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+          loadingScreen.style.opacity = '0';
+          setTimeout(() => {
+            loadingScreen.remove();
+          }, 300);
+        }
+      }, 1000);
+    });
+  </script>
+  
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
